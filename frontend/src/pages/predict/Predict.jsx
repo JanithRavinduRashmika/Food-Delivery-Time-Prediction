@@ -85,9 +85,9 @@ const Predict = () => {
 
     if((name === "restaurantLongitude") || (name === "restaurantLatitude")){
       if((formData.restaurantLatitude !== "") && (formData.restaurantLongitude !== "")){
-        setMapRestaurantCoordinates([formData.restaurantLatitude, formData.restaurantLongitude])
+        setMapRestaurantCoordinates([parseFloat(formData.restaurantLatitude), parseFloat(formData.restaurantLongitude)])
         if(mapDeliveryCoordinates[0] !== 0 && mapDeliveryCoordinates[1] !== 0){
-          setMapCenterCoordinates([(mapRestaurantCoordinates[0]+mapDeliveryCoordinates[0])/2 , (mapRestaurantCoordinates[1]+mapDeliveryCoordinates[1])/2])
+          setMapCenterCoordinates([(parseFloat(mapRestaurantCoordinates[0])+parseFloat(mapDeliveryCoordinates[0]))/2 , (parseFloat(mapRestaurantCoordinates[1])+parseFloat(mapDeliveryCoordinates[1]))/2])
         }else{
           setMapCenterCoordinates(mapRestaurantCoordinates)
         }
@@ -98,9 +98,9 @@ const Predict = () => {
 
     if((name === "deliveryLongitude") || (name === "deliveryLatitude")){
       if((formData.deliveryLatitude !== "") && (formData.deliveryLongitude !== "")){
-        setMapDeliveryCoordinates([formData.deliveryLatitude, formData.deliveryLongitude])
+        setMapDeliveryCoordinates([parseFloat(formData.deliveryLatitude), parseFloat(formData.deliveryLongitude)])
         if(mapRestaurantCoordinates[0] !== 0 && mapRestaurantCoordinates[1] !== 0){
-          setMapCenterCoordinates([(mapRestaurantCoordinates[0]+mapDeliveryCoordinates[0])/2 , (mapRestaurantCoordinates[1]+mapDeliveryCoordinates[1])/2])
+          setMapCenterCoordinates([(parseFloat(mapRestaurantCoordinates[0])+parseFloat(mapDeliveryCoordinates[0]))/2 , (parseFloat(mapRestaurantCoordinates[1])+parseFloat(mapDeliveryCoordinates[1]))/2])
         }else{
           setMapCenterCoordinates(mapDeliveryCoordinates)
         }
@@ -123,7 +123,9 @@ const Predict = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     console.log(formData)
+   
 
     try {
       const response = await fetch('/predict', { 
@@ -137,6 +139,7 @@ const Predict = () => {
         throw new Error('Network response was not ok');
       }
       const responseData = await response.json();
+      console.log(response.predictedTime)
       setPredictedTime(responseData.predictedTime);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -186,7 +189,7 @@ const Predict = () => {
                     helperText={focused.deliveryPersonAge && (formData.deliveryPersonAge<18 || formData.deliveryPersonAge>60) ? "Invalid Age":""}
                   />
 
-                  <TextField name = "deliveryPersonRating" className='dpdTxt' id="outlined-basic" label="Delivery Person Rating" variant="outlined" type='number' onChange={handleChange} onBlur={handleBlur} required
+                  <TextField name = "deliveryPersonRating" className='dpdTxt' id="outlined-basic" label="Delivery Person Rating" variant="outlined"  onChange={handleChange} onBlur={handleBlur} required
                     error = {focused.deliveryPersonRating && (formData.deliveryPersonRating<1 || formData.deliveryPersonRating>5) ? true:false} 
                     helperText = {focused.deliveryPersonRating && ((formData.deliveryPersonRating < 0) || (formData.deliveryPersonRating>5)) ? "Invalid Rating":""}
                   />
@@ -197,21 +200,21 @@ const Predict = () => {
                 <span className='locationDetailsTitle'>Delivery Location Details</span>
                 <div className="locationDetailsContent">
                   <div className="restDelLocation">
-                    <TextField name = "restaurantLongitude" className='locTxt' id="outlined-basic" label="Restaurant Longitude" variant="outlined" type='number' onChange={handleChange} onBlur={handleBlur} required
+                    <TextField name = "restaurantLongitude" className='locTxt' id="outlined-basic" label="Restaurant Longitude" variant="outlined"  onChange={handleChange} onBlur={handleBlur} required
                       error = {focused.restaurantLongitude && (formData.restaurantLongitude<68.7 || formData.restaurantLongitude>97.25) ? true:false} 
                       helperText = {focused.restaurantLongitude && (formData.restaurantLongitude<68.7 || formData.restaurantLongitude>97.25) ? "Invalid Restaurant Longitude":""}
                     />
-                    <TextField name = "deliveryLongitude" className='locTxt' id="outlined-basic" label="Delivery Longitude" variant="outlined" type='number' onChange={handleChange} onBlur={handleBlur} required
+                    <TextField name = "deliveryLongitude" className='locTxt' id="outlined-basic" label="Delivery Longitude" variant="outlined" onChange={handleChange} onBlur={handleBlur} required
                       error = {focused.deliveryLongitude && (formData.deliveryLongitude<68.7 || formData.deliveryLongitude>97.25) ? true:false} 
-                      helperText = {focused.deliveryLongitude && (formData.deliveryLongitude<68.7 || formData.deliveryLongitude>97.25) ? "Invalid Restaurant Longitude":""}
+                      helperText = {focused.deliveryLongitude && (formData.deliveryLongitude<68.7 || formData.deliveryLongitude>97.25) ? "Invalid Delivery Longitude":""}
                     />
                   </div>
                   <div className="restDelLocation">
-                    <TextField name = "restaurantLatitude" className='locTxt' id="outlined-basic" label="Restaurant Latitude" variant="outlined" type='number' onChange={handleChange} onBlur={handleBlur} required
+                    <TextField name = "restaurantLatitude" className='locTxt' id="outlined-basic" label="Restaurant Latitude" variant="outlined" onChange={handleChange} onBlur={handleBlur} required
                       error = {focused.restaurantLatitude && (formData.restaurantLatitude<8.4 || formData.restaurantLatitude>37.6) ? true:false} 
                       helperText = {focused.restaurantLatitude && (formData.restaurantLatitude<8.4 || formData.restaurantLatitude>37.6) ? "Invalid Restaurant Latitude":""}
                     />
-                    <TextField name = "deliveryLatitude" className='locTxt' id="outlined-basic" label="Delivery Latitude" variant="outlined" type='number' onChange={handleChange} onBlur={handleBlur} required
+                    <TextField name = "deliveryLatitude" className='locTxt' id="outlined-basic" label="Delivery Latitude" variant="outlined" onChange={handleChange} onBlur={handleBlur} required
                       error = {focused.deliveryLatitude && (formData.deliveryLatitude<8.4 || formData.deliveryLatitude>37.6) ? true:false} 
                       helperText = {focused.deliveryLatitude && (formData.deliveryLatitude<8.4 || formData.deliveryLatitude>37.6) ? "Invalid Delivery Latitude":""}
                     />

@@ -9,25 +9,25 @@ const DataBase = () => {
 
     const columns = [
         { id: 'ID', name: 'ID' },
-        { id: 'Delivery_person_ID', name: 'DPID' },
-        { id: 'Delivery_person_Age', name: 'Age' },
-        { id: 'Delivery_person_Ratings', name: 'Rat' },
-        { id: 'Restaurant_latitude', name: 'RLat' },
-        { id: 'Restaurant_longitude', name: 'RLon' },
-        { id: 'Delivery_location_latitude', name: 'DLat' },
-        { id: 'Delivery_location_longitude', name: 'DLon' },
-        { id: 'Order_Date', name: 'ODate' },
-        { id: 'Time_Orderd', name: 'TO' },
-        { id: 'Time_Order_picked', name: 'TP' },
-        { id: 'Weatherconditions', name: 'Wea' },
-        { id: 'Road_traffic_density', name: 'RTD' },
-        { id: 'Vehicle_condition', name: 'VC' },
-        { id: 'Type_of_order', name: 'TO' },
-        { id: 'Type_of_vehicle', name: 'TV' },
-        { id: 'multiple_deliveries', name: 'MD' },
-        { id: 'Festival', name: 'Fes' },
+        { id: 'Delivery_person_ID', name: 'Delivery Person ID' },
+        { id: 'Delivery_person_Age', name: 'Delivery PersonAge' },
+        { id: 'Delivery_person_Ratings', name: 'Delivery Person Ratings' },
+        { id: 'Restaurant_latitude', name: 'Restaurant Latitude' },
+        { id: 'Restaurant_longitude', name: 'Restaurant Longitude' },
+        { id: 'Delivery_location_latitude', name: 'Delivery Location Latitude' },
+        { id: 'Delivery_location_longitude', name: 'Delivery Location Longitude' },
+        { id: 'Order_Date', name: 'Order Date' },
+        { id: 'Time_Orderd', name: 'Time Orderd' },
+        { id: 'Time_Order_picked', name: 'Time Order Picked' },
+        { id: 'Weatherconditions', name: 'Weather Conditions' },
+        { id: 'Road_traffic_density', name: 'Road Traffic Density' },
+        { id: 'Vehicle_condition', name: 'Vehicle Condition' },
+        { id: 'Type_of_order', name: 'Type Of Order' },
+        { id: 'Type_of_vehicle', name: 'Type Of Vehicle' },
+        { id: 'multiple_deliveries', name: 'multiple Deliveries' },
+        { id: 'Festival', name: 'Festival' },
         { id: 'City', name: 'City' },
-        { id: 'Time_taken(min)', name: 'TT' }
+        { id: 'Time_taken(min)', name: 'Time Taken' }
         
     ]
 
@@ -42,6 +42,7 @@ const DataBase = () => {
     const [rows, rowchange] = useState([]);
     const [page, pagechange] = useState(0);
     const [rowperpage, rowperpagechange] = useState(5);
+    
     useEffect(() => {
         fetch("/database").then(resp => {
             return resp.json();
@@ -92,7 +93,7 @@ const DataBase = () => {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination className='tPagination'
-                                    rowsPerPageOptions={[10, 5]}
+                                    rowsPerPageOptions={[5, 10, 50, 100]}
                                     rowsPerPage={rowperpage}
                                     page={page}
                                     count={rows.length}
