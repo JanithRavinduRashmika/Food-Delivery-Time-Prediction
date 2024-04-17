@@ -7,6 +7,7 @@ import pickle
 import os
 import google.generativeai as genai
 import json
+from geopy.distance import geodesic
 
 
 app = Flask(__name__)
@@ -151,65 +152,57 @@ def chart():
 @app.route('/predict', methods=['POST'])
 def predict():
 
-    
-    
-
     data = request.get_json()
 
-    age = float(data['deliveryPersonAge'])
-    ratings = float(data["deliveryPersonRating"])
-    traffic_density = data['roadTrafficDensity']
-    vehicle_condition = data['vehicleCondition']
-    multiple_deliveries = data['multipleDeliveries']
-    distance = 3.2
-    weather_condition = data['weatherCondition']
+    deliveryPersonAge = float(data['deliveryPersonAge'])
+    deliveryPersonRating = float(data["deliveryPersonRating"])
+    weatherCondition = data['weatherCondition']
+    roadTrafficDensity = data['roadTrafficDensity']
+    vehicleCondition = int(data['vehicleCondition'])
+    multipleDeliveries = int(data['multipleDeliveries'])
     festival = data['festival']
 
-    traffic_density_mapping = {'Low': 1, 'Medium': 2, 'High': 3, 'Jam': 4}
-    deliveries_mapping = {"0": 0, "1": 1, "2": 2, "3": 3}
-    vehicle_condition_mapping = {"0": 0, "1": 1, "2": 2}
+    restaurantLatitude = float(data['restaurantLatitude'])
+    restaurantLongitude = float(data['restaurantLongitude'])
+    deliveryLatitude = float(data['deliveryLatitude'])
+    deliveryLongitude = float(data['deliveryLongitude'])
 
-    traffic_density_value = traffic_density_mapping.get(traffic_density, 0)
-    deliveries_value = deliveries_mapping.get(multiple_deliveries, 0)
-    vehicle_condition_value = vehicle_condition_mapping.get(vehicle_condition, 0)
 
-    input_vector =np.array([
-        age,
-        ratings,
-        traffic_density_value,
-        vehicle_condition_value,
-        deliveries_value,
-        
-    ])
+    weather_mapping = {'cloudy':0, 'fog':1, 'sandstorms':2, 'stormy':3, 'sunny':4, 'windy':5 }
+    traffic_mapping = {'low':0,'medium':1,'high':2,'jam':3}
+    festival_mapping = {'no':0,'yes':1}
 
-    
-    festival_values = ['Yes']
-    
-    for value in festival_values:
-        input_vector = np.append(input_vector, 1 if festival == 'yes' else 0)
+    weatherCondition = weather_mapping.get(weatherCondition, 0)
+    roadTrafficDensity = traffic_mapping.get(roadTrafficDensity, 0)
+    festival = festival_mapping.get(festival, 0)
 
-    
-    input_vector = np.append(input_vector, distance)
-    
-    weather_conditions = ['cloudy','fog','sunny']
-    for condition in weather_conditions:
-        input_vector = np.append(input_vector,1 if condition == weather_condition else 0)
+
+    distance = geodesic((restaurantLatitude,restaurantLongitude), (deliveryLatitude,deliveryLongitude)).kilometers
+    print(distance)
+    input_vector =np.array([[
+        deliveryPersonAge,
+        deliveryPersonRating,
+        weatherCondition,
+        roadTrafficDensity,
+        vehicleCondition,
+        multipleDeliveries,
+        festival,
+        distance
+    ]])
 
     
 
     current_directory = os.path.dirname(os.path.realpath(__file__))
 
-    model_filename = os.path.join(current_directory, 'random_forest_regression_model.pkl')
+    model_filename = os.path.join(current_directory, 'finaModel.pkl')
 
     with open(model_filename, 'rb') as file:
-        rf_regressor = pickle.load(file)
-
-    input_data_point = [[21, 2.2]]
-
-    prediction = rf_regressor.predict(input_data_point)
+        model = pickle.load(file)
 
 
-    return jsonify({"predictedTime":round(prediction[0],2)})
+    prediction = model.predict(input_vector)
+    prediction = str(round(prediction[0],2))
+    return jsonify({"predictedTime":prediction})
 
     
         
