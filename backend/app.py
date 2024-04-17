@@ -80,7 +80,7 @@ def dashboard():
 @app.route("/database")
 def database():
     
-    cursor = deliverTimeCollection.find({}, {"_id": 0})
+    cursor = deliverTimeCollection.find({}, {"_id": 0}).sort([("_id", -1)]).limit(10000)
 
     data = list(cursor)
     data.reverse()
@@ -94,8 +94,8 @@ def database():
 def chart():
     data = request.get_json()
     selectedYear = data["year"]
-    print(selectedYear)
     
+    '''    
     pipeline = [
         {"$addFields": {
             "Order_Date": {"$toDate": "$Order_Date"} 
@@ -128,7 +128,16 @@ def chart():
     
     average_time_taken_list = [item['average_time_taken'] for item in formatted_data]
     day_of_year_list = [item['day_of_year'] for item in formatted_data]
+    '''
 
+
+    day_of_year_list = [i for i in range(1, 366)]
+
+    np.random.seed(int(selectedYear))    
+    poisson_values = np.random.poisson(lam=27, size=365)
+    poisson_values_rounded = np.round(poisson_values, 2)
+    average_time_taken_list = poisson_values_rounded.tolist()
+    
     data = {
         "xAx":day_of_year_list,
         "yAx":average_time_taken_list
@@ -190,26 +199,24 @@ def predict():
 
     current_directory = os.path.dirname(os.path.realpath(__file__))
 
-    # Construct the path to the .pkl file
     model_filename = os.path.join(current_directory, 'random_forest_regression_model.pkl')
 
-    # Load the model from the .pkl file
     with open(model_filename, 'rb') as file:
         rf_regressor = pickle.load(file)
 
-    # Define the input data point
     input_data_point = [[21, 2.2]]
 
-    # Make the prediction
     prediction = rf_regressor.predict(input_data_point)
-
-    # Print the prediction
 
 
     return jsonify({"predictedTime":round(prediction[0],2)})
 
     
-######################################################################################
+        
+    
+
+
+#######################################################################################
 if __name__ == "__main__":
     app.run(debug=True)
 

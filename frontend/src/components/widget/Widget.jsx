@@ -1,7 +1,7 @@
 import "./widget.scss";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const Widget = ({title,value}) => {
+const Widget = ({title,value,percentage}) => {
 
   return (
     <div className="widget">
@@ -10,9 +10,12 @@ const Widget = ({title,value}) => {
       </div>
       <div className="bottom">
         <span className="count">{value}</span>
-        <div className="percentage positive">
-          <KeyboardArrowUpIcon />
-          <span>12%</span>
+        <div className="percentage" >
+          
+           <KeyboardArrowUpIcon/>
+          
+          
+          <span>{percentage}</span>
         </div>
 
       </div>

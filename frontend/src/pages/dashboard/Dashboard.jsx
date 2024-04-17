@@ -1,5 +1,5 @@
 import './dashboard.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SideBar from '../../components/sidebar/Sidebar'
 import NavBar from '../../components/navbar/Navbar'
 import Widget from '../../components/widget/Widget'
@@ -16,6 +16,24 @@ const Dashboard = () => {
   const [xAxisValues, setXAxisValues] = useState([])
   const [yAxisValues, setYAxisValues] = useState([])
 
+  useEffect(() => {
+    fetch('/chart', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      
+      body: JSON.stringify({"year":2024})
+    }).then(resp => {
+      return resp.json();
+    }).then(resp => {
+        setXAxisValues(resp.xAx);
+        setYAxisValues(resp.yAx);
+    }).catch(e => {
+        console.log(e.message)
+    })
+
+}, [])
 
   const handleOptionSelect = (value) => {
     setSelectedValue(value);
@@ -34,13 +52,13 @@ const Dashboard = () => {
       }).then(resp => {
           setXAxisValues(resp.xAx);
           setYAxisValues(resp.yAx);
-          console.log(resp.xAx)
-          console.log(resp.yAx)
       }).catch(e => {
           console.log(e.message)
       })
 
   }
+
+
 
 
 
@@ -52,10 +70,10 @@ const Dashboard = () => {
         <NavBar />
         <div className="widgets">
           <Summary/>
-          <Widget title={"Today Deliveries"} value={1} />
-          <Widget title={"Ontime %"} value={1}/>
-          <Widget title={"Average Delay"} value={1} />
-          <Widget title={"Model Accuracy"} value={1}/>
+          <Widget title={"Today Deliveries"} value={1373} percentage={"15.32%"}  />
+          <Widget title={"Ontime %"} value={"89.1%"} percentage={"2.19%"} />
+          <Widget title={"Average Delay (min)"} value={5.32} percentage={"5.32%"} />
+          <Widget title={"Model Accuracy"} value={1} percentage={"15.32%"} />
         </div>
         <div className="charts">
           <div className='chart'>

@@ -1,18 +1,12 @@
 import './sidebar.scss'
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import GroupIcon from '@mui/icons-material/Group';
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import BookIcon from '@mui/icons-material/Book';
-import SettingsIcon from '@mui/icons-material/Settings';
 import Person4Icon from '@mui/icons-material/Person4';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import simg from './../../resources/deliveryPerson.svg'
+import ChatIcon from '@mui/icons-material/Chat';
+import StorageIcon from '@mui/icons-material/Storage';
+import OnlinePredictionIcon from '@mui/icons-material/OnlinePrediction';
 
 function Sidebar() {
   return (
@@ -26,7 +20,7 @@ function Sidebar() {
         <div className='center'>
             <ul>
                 <p className="title">MAINS</p>
-                <Link to="/">
+                <Link to="/" style={{ textDecoration: 'none' }}>
                     <li>
                         <DashboardIcon className='icon'/>
                         <span>Dashboard</span>
@@ -35,68 +29,34 @@ function Sidebar() {
                 
             </ul>
             <ul>
-                <p className="title">LISTS</p>
-                <Link to="/predict">
+                <Link to="/predict" style={{ textDecoration: 'none' }}>
                     <li>
-                        <GroupIcon className='icon'/>
-                        <span>Predictions</span>
+                        <OnlinePredictionIcon className='icon'/>
+                        <span>Prediction</span>
                     </li>
                 </Link>
                 
             </ul>
             <ul>
-                <Link to="/database">
+                <Link to="/database" style={{ textDecoration: 'none' }}>
                     <li>
-                        <ProductionQuantityLimitsIcon className='icon'/>
-                        <span>DataBase</span>
+                        <StorageIcon className='icon'/>
+                        <span>Database</span>
                     </li>
                 </Link>
                 
             </ul>
             <ul>
-                <li>
-                    <BookmarkBorderIcon className='icon'/>
-                    <span>Orders</span>
-                </li>
+                <Link to="/chat" style={{ textDecoration: 'none' }}>
+                    <li>
+                        <ChatIcon className='icon'/>
+                        <span>Chat With DB</span>
+                    </li>
+                </Link>
+                
             </ul>
-            <ul>
-                <li>
-                    <DeliveryDiningIcon className='icon'/>
-                    <span>Delivery</span>
-                </li>
-            </ul>
-            <ul>
-            <p className="title">USEFULL</p>
-                <li>
-                    <QueryStatsIcon className='icon'/>
-                    <span>Stats</span>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <NotificationsIcon className='icon'/>
-                    <span>Notifications</span>
-                </li>
-            </ul>
-            <ul>
-            <p className="title">SERVICE</p>
-                <li>
-                    <FavoriteIcon className='icon'/>
-                    <span>System Health</span>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <BookIcon className='icon'/>
-                    <span>Logs</span>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <SettingsIcon className='icon'/>
-                    <span>Settings</span>
-                </li>
-            </ul>
+            
+            
             <ul>
             <p className="title">USER</p>
                 <li>
@@ -111,10 +71,6 @@ function Sidebar() {
                 </li>
             </ul>
             
-        </div>
-        <div className='bottom'>
-            <div className="colorOption"></div>
-            <div className="colorOption"></div>
         </div>
     </div>
   )

@@ -41,7 +41,7 @@ const DataBase = () => {
 
     const [rows, rowchange] = useState([]);
     const [page, pagechange] = useState(0);
-    const [rowperpage, rowperpagechange] = useState(5);
+    const [rowperpage, rowperpagechange] = useState(10);
     
     useEffect(() => {
         fetch("/database").then(resp => {
@@ -68,7 +68,7 @@ const DataBase = () => {
                                         <TableHead>
                                             <TableRow>
                                                 {columns.map((column) => (
-                                                    <TableCell style={{ backgroundColor: 'black', color: 'white' }} key={column.id}>{column.name}</TableCell>
+                                                    <TableCell style={{ backgroundColor: '#023e8a', color: 'white' }} key={column.id}>{column.name}</TableCell>
                                                 ))}
                                             </TableRow>
                                         </TableHead>
@@ -93,7 +93,7 @@ const DataBase = () => {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination className='tPagination'
-                                    rowsPerPageOptions={[5, 10, 50, 100]}
+                                    rowsPerPageOptions={[10, 50, 100]}
                                     rowsPerPage={rowperpage}
                                     page={page}
                                     count={rows.length}
