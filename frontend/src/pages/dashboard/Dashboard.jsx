@@ -72,8 +72,8 @@ const Dashboard = () => {
           <Summary/>
           <Widget title={"Today Deliveries"} value={1373} percentage={"15.32%"}  />
           <Widget title={"Ontime %"} value={"89.1%"} percentage={"2.19%"} />
-          <Widget title={"Average Delay (min)"} value={5.32} percentage={"5.32%"} />
-          <Widget title={"Model Accuracy"} value={1} percentage={"15.32%"} />
+          <Widget title={"Average Delivery (min)"} value={27.34} percentage={"5.17%"} />
+          <Widget title={"Average Delay (min)"} value={5.32} percentage={"3.38%"} />
         </div>
         <div className="charts">
           <div className='chart'>

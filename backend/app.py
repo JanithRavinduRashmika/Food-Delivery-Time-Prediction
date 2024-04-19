@@ -134,8 +134,13 @@ def chart():
 
     day_of_year_list = [i for i in range(1, 366)]
 
-    np.random.seed(int(selectedYear))    
-    poisson_values = np.random.poisson(lam=27, size=365)
+    np.random.seed(int(selectedYear))
+    s = 365
+    if(int(selectedYear)==2024):
+        s = 108
+    
+        
+    poisson_values = np.random.poisson(lam=27, size=s)
     poisson_values_rounded = np.round(poisson_values, 2)
     average_time_taken_list = poisson_values_rounded.tolist()
     

@@ -11,7 +11,7 @@ const Summary = () => {
                 <span className="title">Daily Summary</span>
             </div>
             <div className="bottom">
-                <span className="context">You have done 72% more sales today. Congratulations !!</span>
+                <span className="context">You have done 72% more deliveries compare to last week. Congratulations !!</span>
             </div>
         </div>
         <div className="right">
